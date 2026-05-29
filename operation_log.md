@@ -60,3 +60,5 @@
 - 2026-05-29 12:06:00：更新入库脚本支持 PDF/TXT/Markdown 与异步写入。
 - 2026-05-29 12:06:25：安装 pypdf/jieba 依赖并通过 `.venv` 运行 `pytest`（4 条测试通过）。
 - 2026-05-29 12:08:10：调整分块 `created_at` 为 datetime 并重新运行测试（4 条通过）。
+- 2026-05-29 12:09:20：提交变更（feat: implement retrieval subsystem）。
+- 2026-05-29 12:09:35：推送提交到远程 `origin/main`。
