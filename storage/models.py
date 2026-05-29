@@ -4,6 +4,7 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import declarative_base
+from pgvector.sqlalchemy import Vector
 
 Base = declarative_base()
 
@@ -35,4 +36,15 @@ class MemoryEntry(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     patient_id = Column(String, index=True)
     content = Column(JSONB)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Document(Base):
+    __tablename__ = "documents"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    source = Column(String, index=True)
+    content = Column(Text, nullable=False)
+    metadata = Column(JSONB)
+    embedding = Column(Vector(1024))
     created_at = Column(DateTime, default=datetime.utcnow)

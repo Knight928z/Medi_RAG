@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Dict
 
 from langgraph.graph import END, StateGraph
@@ -12,8 +13,14 @@ def _run_agent(agent_name: str, state: WorkflowState) -> Dict[str, Any]:
     agent = agents[agent_name]
     payload = state.model_dump()
     output = agent.run(payload)
+    event = {
+        "agent": agent_name,
+        "timestamp": datetime.utcnow().isoformat(),
+        "output": output,
+    }
     trace_event(f"agent:{agent_name}", {"input": payload, "output": output})
-    return output
+    current_trace = list(state.trace) if hasattr(state, "trace") else []
+    return {"trace": current_trace + [event], **output}
 
 
 def build_workflow():

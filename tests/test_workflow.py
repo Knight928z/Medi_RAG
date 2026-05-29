@@ -14,3 +14,4 @@ def test_workflow_runs():
     result = workflow.invoke(state)
     payload = result.model_dump() if hasattr(result, "model_dump") else result
     assert payload["intent"] == "interpret_report"
+    assert len(payload["trace"]) == 6

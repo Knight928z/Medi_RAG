@@ -40,14 +40,20 @@ def interpret_report(
     result_payload = (
         result_state.model_dump() if hasattr(result_state, "model_dump") else result_state
     )
-    repo.update(run, status="completed", state_snapshot=result_payload)
+    try:
+        repo.update(run, status="completed", state_snapshot=result_payload)
+    except Exception as exc:
+        result_payload.setdefault("errors", []).append(f"db_update_failed:{exc}")
     settings = get_settings()
-    set_json(
-        redis_client,
-        f"workflow:{request_id}",
-        result_payload,
-        ttl_seconds=settings.workflow_state_ttl_seconds,
-    )
+    try:
+        set_json(
+            redis_client,
+            f"workflow:{request_id}",
+            result_payload,
+            ttl_seconds=settings.workflow_state_ttl_seconds,
+        )
+    except Exception as exc:
+        result_payload.setdefault("errors", []).append(f"redis_cache_failed:{exc}")
     return ReportInterpretResponse(
         request_id=request_id,
         status="completed",

@@ -24,6 +24,9 @@
 - 启动 FastAPI：
   - 使用 `uvicorn apps.api.main:app --reload`
 
+- 录入知识库文档：
+  - 使用 `python scripts/ingest_data.py --data-dir ./data`
+
 ## 容器化部署
 
 - 使用 `docker-compose.yml` 启动 PostgreSQL + Redis + API 服务。
@@ -33,3 +36,5 @@
 当前为增量构建的基础骨架，后续将逐步完善 LangGraph 工作流与持久化逻辑。
 
 `/data` 目录用于放置知识库文件，已在 `.gitignore` 中忽略。
+
+工作流执行时会记录 `trace` 字段用于审计追踪。

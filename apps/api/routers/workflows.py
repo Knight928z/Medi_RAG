@@ -13,7 +13,10 @@ def get_workflow_status(
     db_session=Depends(get_db_session),
     redis_client=Depends(get_redis_client),
 ) -> dict:
-    cached = get_json(redis_client, f"workflow:{request_id}")
+    try:
+        cached = get_json(redis_client, f"workflow:{request_id}")
+    except Exception:
+        cached = None
     if cached is not None:
         return {"request_id": request_id, "status": "cached", "state": cached}
 

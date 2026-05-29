@@ -15,6 +15,7 @@ class WorkflowState(BaseModel):
     route: List[str] = Field(default_factory=list)
     intent: Optional[str] = None
     errors: List[str] = Field(default_factory=list)
+    trace: List[Dict[str, Any]] = Field(default_factory=list)
 
     class Config:
         json_encoders = {"_id": str}
