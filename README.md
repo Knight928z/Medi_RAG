@@ -44,3 +44,7 @@
 工作流执行时会记录 `trace` 字段用于审计追踪。
 
 健康检查：`/health`、`/health/db`、`/health/redis`、`/health/ollama`。
+
+检索子系统支持：PDF/TXT/Markdown → 分块 → BGE-M3 向量化 → pgvector 索引 → BM25/向量融合检索。
+
+如需启用检索查询改写（本地中文模型：DeepSeek/Qwen/Llama），设置 `RETRIEVAL_QUERY_REWRITE=true`。

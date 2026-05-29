@@ -13,6 +13,11 @@ class Settings(BaseSettings):
     default_llm_model: str = "qwen2.5"
     default_embedding_model: str = "BAAI/bge-m3"
     workflow_state_ttl_seconds: int = 3600
+    retrieval_chunk_size: int = 800
+    retrieval_chunk_overlap: int = 120
+    retrieval_top_k: int = 5
+    retrieval_bm25_limit: int = 2000
+    retrieval_query_rewrite: bool = False
 
     class Config:
         env_file = ".env"

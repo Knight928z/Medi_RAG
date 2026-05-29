@@ -19,3 +19,5 @@ tenacity
 pytest
 pytest-asyncio
 pytest-cov
+pypdf
+jieba

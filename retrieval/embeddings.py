@@ -1,3 +1,4 @@
+import asyncio
 from typing import List
 
 from sentence_transformers import SentenceTransformer
@@ -16,3 +17,6 @@ class EmbeddingProvider:
 
     def embed(self, texts: List[str]) -> List[List[float]]:
         return self.model.encode(texts, normalize_embeddings=True).tolist()
+
+    async def embed_async(self, texts: List[str]) -> List[List[float]]:
+        return await asyncio.to_thread(self.embed, texts)

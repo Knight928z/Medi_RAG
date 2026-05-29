@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, String, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import declarative_base
 from pgvector.sqlalchemy import Vector
@@ -77,6 +77,11 @@ class Document(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     source = Column(String, index=True)
+    source_type = Column(String, index=True)
+    chunk_id = Column(String, unique=True, index=True)
+    chunk_index = Column(Integer)
+    page_number = Column(Integer)
+    content_hash = Column(String, index=True)
     content = Column(Text, nullable=False)
     metadata = Column(JSONB)
     embedding = Column(Vector(1024))
