@@ -45,3 +45,5 @@
 - 2026-05-29 11:24:25：更新 `README.md`，补充迁移与健康检查说明。
 - 2026-05-29 11:24:45：补齐 `document_repo` 的异步仓储方法。
 - 2026-05-29 11:25:10：使用 `.venv` 运行 `pytest`，2 条测试通过（含警告）。
+- 2026-05-29 11:25:55：提交变更（feat: infrastructure layer with async db and alembic）。
+- 2026-05-29 11:26:10：推送提交到远程 `origin/main`。
