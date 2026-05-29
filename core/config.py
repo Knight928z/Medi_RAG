@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     vllm_base_url: str = "http://localhost:8001"
     default_llm_model: str = "qwen2.5"
     default_embedding_model: str = "BAAI/bge-m3"
+    workflow_state_ttl_seconds: int = 3600
 
     class Config:
         env_file = ".env"

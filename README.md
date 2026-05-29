@@ -18,6 +18,9 @@
 
 > 需要提前准备本地模型服务（Ollama 或 vLLM）。
 
+- 初始化数据库表：
+  - 使用 `python scripts/init_db.py`
+
 - 启动 FastAPI：
   - 使用 `uvicorn apps.api.main:app --reload`
 
@@ -28,3 +31,5 @@
 ## 说明
 
 当前为增量构建的基础骨架，后续将逐步完善 LangGraph 工作流与持久化逻辑。
+
+`/data` 目录用于放置知识库文件，已在 `.gitignore` 中忽略。

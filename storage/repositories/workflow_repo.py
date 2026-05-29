@@ -19,3 +19,11 @@ class WorkflowRepository:
             .filter(WorkflowRun.request_id == request_id)
             .one_or_none()
         )
+
+    def update(self, run: WorkflowRun, **fields) -> WorkflowRun:
+        for key, value in fields.items():
+            setattr(run, key, value)
+        self.session.add(run)
+        self.session.commit()
+        self.session.refresh(run)
+        return run
