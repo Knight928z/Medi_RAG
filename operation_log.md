@@ -34,3 +34,5 @@
 - 2026-05-29 11:07:15：工作流执行增加 Redis/DB 双写失败回退逻辑。
 - 2026-05-29 11:07:35：更新 `README.md`，补充入库与 tracing 说明。
 - 2026-05-29 11:08:05：使用 `.venv` 运行 `pytest`，2 条测试通过（含警告）。
+- 2026-05-29 11:09:15：提交变更（feat: add tracing, ingestion, and pgvector storage）。
+- 2026-05-29 11:09:30：推送提交到远程 `origin/main`。
