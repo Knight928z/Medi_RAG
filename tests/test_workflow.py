@@ -11,7 +11,9 @@ def test_state_serialization():
 def test_workflow_runs():
     workflow = build_workflow()
     state = WorkflowState(request_id="req-2", report_text="血常规正常")
-    result = workflow.invoke(state)
+    result = workflow.invoke(state, config={"configurable": {"thread_id": "req-2"}})
     payload = result.model_dump() if hasattr(result, "model_dump") else result
     assert payload["intent"] == "interpret_report"
     assert len(payload["trace"]) == 6
+    assert payload["trace"][0]["agent"] == "planner"
+    assert payload["current_step_index"] == len(payload["route"])

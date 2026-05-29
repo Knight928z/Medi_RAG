@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     retrieval_chunk_overlap: int = 120
     retrieval_top_k: int = 5
     retrieval_bm25_limit: int = 2000
-    retrieval_query_rewrite: bool = False
+    retrieval_query_rewrite: bool = False // 是否启用本地检索查询改写
 
     class Config:
         env_file = ".env"

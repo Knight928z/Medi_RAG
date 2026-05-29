@@ -36,7 +36,10 @@ async def interpret_report(
             status="running",
         )
     )
-    result_state = workflow.invoke(initial_state)
+    result_state = workflow.invoke(
+        initial_state,
+        config={"configurable": {"thread_id": request_id}},
+    )
     result_payload = (
         result_state.model_dump() if hasattr(result_state, "model_dump") else result_state
     )
