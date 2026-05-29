@@ -6,12 +6,28 @@ from pydantic import BaseModel, Field
 class WorkflowState(BaseModel):
     request_id: str
     report_text: str
+    user_id: Optional[str] = None
+    conversation_id: Optional[str] = None
     patient_id: Optional[str] = None
     parsed_report: Optional[Dict[str, Any]] = None
     retrieval_results: List[Dict[str, Any]] = Field(default_factory=list)
     reasoning: Optional[Dict[str, Any]] = None
     validation: Optional[Dict[str, Any]] = None
+    validation_score: Optional[Dict[str, Any]] = None
+    validation_issues: List[Dict[str, Any]] = Field(default_factory=list)
+    validation_passed: bool = False
+    critique: Optional[Dict[str, Any]] = None
+    critique_score: Optional[Dict[str, Any]] = None
+    critique_issues: List[Dict[str, Any]] = Field(default_factory=list)
+    regeneration_required: bool = False
+    reflection_retry_requested: bool = False
+    reflection_retry_reason: Optional[str] = None
+    reflection_iterations: int = 0
+    max_reflection_iterations: int = 1
+    final_synthesis: Optional[Dict[str, Any]] = None
     memory_context: List[Dict[str, Any]] = Field(default_factory=list)
+    memory_summary: Optional[Dict[str, Any]] = None
+    memory_notes: Optional[str] = None
     route: List[str] = Field(default_factory=list)
     intent: Optional[str] = None
     errors: List[str] = Field(default_factory=list)

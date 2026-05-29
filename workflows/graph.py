@@ -53,16 +53,19 @@ def _run_agent(agent_name: str, state: WorkflowState) -> Dict[str, Any]:
     )
     current_trace = list(state.trace)
     if agent_name in state.route:
-        next_index = state.current_step_index + 1
+        next_index = state.route.index(agent_name) + 1
     else:
         next_index = state.current_step_index
+    next_status = output.get("status") or (
+        "completed" if state.route and next_index >= len(state.route) else "running"
+    )
     return {
         "trace": current_trace + [event],
         "current_agent": agent_name,
         "current_step_index": next_index,
         "retry_counts": retry_counts,
         "errors": errors,
-        "status": "running",
+        "status": next_status,
         "checkpoint_ref": checkpoint_ref,
         **output,
     }
@@ -71,6 +74,20 @@ def _run_agent(agent_name: str, state: WorkflowState) -> Dict[str, Any]:
 def _route_next(state: WorkflowState) -> str:
     if state.status == "failed":
         return END
+    if (
+        state.current_agent == "critic"
+        and state.reflection_retry_requested
+        and state.reflection_iterations <= state.max_reflection_iterations
+    ):
+        trace_event(
+            "router:reflection_retry",
+            {
+                "target": "reasoning",
+                "iteration": state.reflection_iterations,
+                "reason": state.reflection_retry_reason,
+            },
+        )
+        return "reasoning"
     if not state.route:
         return END
     if state.current_step_index >= len(state.route):
@@ -88,6 +105,8 @@ def build_workflow():
     graph.add_node("retriever", lambda state: _run_agent("retriever", state))
     graph.add_node("reasoning", lambda state: _run_agent("reasoning", state))
     graph.add_node("validator", lambda state: _run_agent("validator", state))
+    graph.add_node("critic", lambda state: _run_agent("critic", state))
+    graph.add_node("synthesis", lambda state: _run_agent("synthesis", state))
     graph.add_node("memory", lambda state: _run_agent("memory", state))
     graph.add_node("router", lambda state: {})
 
@@ -97,6 +116,8 @@ def build_workflow():
     graph.add_edge("retriever", "router")
     graph.add_edge("reasoning", "router")
     graph.add_edge("validator", "router")
+    graph.add_edge("critic", "router")
+    graph.add_edge("synthesis", "router")
     graph.add_edge("memory", "router")
 
     graph.add_conditional_edges(
@@ -108,6 +129,8 @@ def build_workflow():
             "retriever": "retriever",
             "reasoning": "reasoning",
             "validator": "validator",
+            "critic": "critic",
+            "synthesis": "synthesis",
             "memory": "memory",
             END: END,
         },

@@ -79,3 +79,37 @@
 - 2026-05-29 12:56:35：修复 Python 3.9 类型注解兼容问题并通过 `pytest`（5 条通过）。
 - 2026-05-29 12:57:15：提交变更（feat: implement structured ParserAgent）。
 - 2026-05-29 12:57:30：推送提交到远程 `origin/main`。
+- 2026-05-29 13:15:10：新增分层记忆模型字段，支持 layer/kind/scope/TTL/pgvector embedding。
+- 2026-05-29 13:15:35：实现 MemoryService，聚合 Redis 短期记忆、PostgreSQL 历史记录、pgvector 语义记忆与历史工作流。
+- 2026-05-29 13:16:05：新增记忆压缩与摘要模块，防止原始长文本和 trace 进入上下文窗口。
+- 2026-05-29 13:16:30：接入 `/reports/interpret` 的记忆检索与工作流完成后记忆回写。
+- 2026-05-29 13:16:55：新增 `/memory/context`、`/memory/semantic`、`/memory/workflows` 接口。
+- 2026-05-29 13:17:20：修复 SQLAlchemy reserved `metadata` 属性映射，保持数据库列名不变。
+- 2026-05-29 13:17:45：新增记忆压缩与 MemoryAgent 单元测试，并通过 `PYTHONPATH=. .venv/bin/pytest`（7 条通过）。
+- 2026-05-29 20:13:55：新增 `evaluation/__init__.py`，导出结构化验证输出 schema。
+- 2026-05-29 20:13:56：新增 `evaluation/schemas.py`，定义 EvaluationIssue、EvaluationScore、ValidationOutput、CritiqueOutput。
+- 2026-05-29 20:13:57：新增 `evaluation/validation.py`，实现 schema、引用、逻辑一致性、无依据陈述校验与评分。
+- 2026-05-29 20:13:58：新增 `evaluation/critic.py`，实现 reasoning chain 审查、弱证据识别、缺失上下文检测与重写触发。
+- 2026-05-29 20:13:59：更新 `agents/validator.py`，接入 ReasoningValidator 并输出结构化分数、问题列表与 trace。
+- 2026-05-29 20:14:00：新增 `agents/critic.py`，实现 CriticAgent 与限次自反思重试标记。
+- 2026-05-29 20:14:01：新增 `agents/synthesis.py`，实现最终综合输出与可靠性局限记录。
+- 2026-05-29 20:14:02：更新 `workflows/nodes.py`，注册 CriticAgent 与 SynthesisAgent。
+- 2026-05-29 20:14:03：更新 `agents/planner.py`，将 route 扩展为 parser/retriever/reasoning/validator/critic/synthesis/memory。
+- 2026-05-29 20:14:04：更新 `workflows/state.py`，新增 validation、critique、自反思重试与 final_synthesis 状态字段。
+- 2026-05-29 20:14:05：更新 `workflows/graph.py`，实现 Critic 后按上限回跳 Reasoning 的动态路由与最终 completed 状态。
+- 2026-05-29 20:14:06：更新 `core/config.py`，新增验证阈值与最大自反思迭代配置项。
+- 2026-05-29 20:14:07：更新 `.env.example`，补充 VALIDATION/CRITIC/MAX_REFLECTION 配置示例。
+- 2026-05-29 20:14:08：更新 `storage/models.py`，新增 validation_history 表模型用于验证历史和 dashboard。
+- 2026-05-29 20:14:09：新增 `storage/repositories/validation_repo.py`，支持验证历史写入、按 request 查询和 dashboard 列表。
+- 2026-05-29 20:14:10：更新 `apps/api/routers/reports.py`，接入 max_reflection_iterations 并持久化 Validator/Critic 历史。
+- 2026-05-29 20:14:11：新增 `apps/api/routers/evaluation.py`，提供验证历史与评估 dashboard 查询接口。
+- 2026-05-29 20:14:12：更新 `apps/api/main.py`，注册 evaluation router。
+- 2026-05-29 20:14:13：更新 `prompts/validator.md`，补充结构化评分、失败原因与引用/schema 校验要求。
+- 2026-05-29 20:14:14：新增 `prompts/critic.md`，定义 Critic Agent 自反思审查输出协议。
+- 2026-05-29 20:14:15：新增 `prompts/synthesis.md`，定义最终综合输出协议与可靠性风险保留规则。
+- 2026-05-29 20:14:16：更新 `README.md`，补充验证与自反思子系统设计、接口和 dashboard 说明。
+- 2026-05-29 20:14:17：更新 `tests/test_workflow.py`，适配新增 Critic/Synthesis 节点与自反思字段。
+- 2026-05-29 20:14:18：新增 `tests/test_evaluation.py`，覆盖 Validator 显式失败原因和 Critic 重试触发。
+- 2026-05-29 20:14:19：执行 `PYTHONPATH=. .venv/bin/pytest`，9 条测试通过（含 3 个既有警告）。
+- 2026-05-29 20:14:51：提交变更（feat: add memory validation and self reflection），包含上次记忆子系统与本次验证/自反思子系统改动。
+- 2026-05-29 20:14:52：推送提交到远程 `origin/main`。

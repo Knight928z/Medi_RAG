@@ -15,7 +15,7 @@ class PgVectorStore:
                 source=item.get("source"),
                 source_type=item.get("source_type"),
                 content=item["content"],
-                metadata=item.get("metadata"),
+                document_metadata=item.get("metadata"),
                 embedding=item.get("embedding"),
                 chunk_id=item.get("chunk_id"),
                 chunk_index=item.get("chunk_index"),
@@ -44,7 +44,7 @@ class PgVectorStore:
                 "chunk_index": item.chunk_index,
                 "page_number": item.page_number,
                 "content": item.content,
-                "metadata": item.metadata,
+                "metadata": item.document_metadata,
                 "created_at": item.created_at.isoformat(),
                 "retrieval": "vector",
             }

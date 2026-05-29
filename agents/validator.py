@@ -1,17 +1,25 @@
 from typing import Any, Dict
 
 from agents.base import BaseAgent
+from core.telemetry import trace_event
+from evaluation.validation import ReasoningValidator
 
 
 class ValidatorAgent(BaseAgent):
     name = "validator"
 
+    def __init__(self) -> None:
+        self.validator = ReasoningValidator()
+
     def run(self, state: Dict[str, Any]) -> Dict[str, Any]:
-        return {
-            "validation": {
-                "hallucination": False,
-                "consistency": True,
-                "citations_ok": False,
+        result = self.validator.validate(state)
+        trace_event(
+            "validator:evaluation",
+            {
+                "request_id": state.get("request_id"),
+                "passed": result.validation_passed,
+                "score": result.validation_score.model_dump(),
+                "issues": [issue.model_dump() for issue in result.validation_issues],
             },
-            "validator_notes": "占位: 后续接入引用与一致性校验。",
-        }
+        )
+        return result.model_dump()

@@ -54,7 +54,7 @@ class RetrievalService:
                     "chunk_index": doc.chunk_index,
                     "page_number": doc.page_number,
                     "content": doc.content,
-                    "metadata": doc.metadata,
+                    "metadata": doc.document_metadata,
                     "created_at": doc.created_at.isoformat(),
                 }
                 for doc in docs

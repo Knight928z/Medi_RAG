@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Optional
 
 from pydantic_settings import BaseSettings
 
@@ -18,6 +19,15 @@ class Settings(BaseSettings):
     retrieval_top_k: int = 5
     retrieval_bm25_limit: int = 2000
     retrieval_query_rewrite: bool = False  # 是否启用本地检索查询改写
+    memory_short_ttl_seconds: int = 1800
+    memory_long_ttl_days: Optional[int] = None
+    memory_long_term_limit: int = 50
+    memory_semantic_top_k: int = 5
+    memory_summary_max_items: int = 8
+    memory_summary_model: str = "qwen2.5"
+    validation_min_overall_score: float = 0.75
+    critic_min_overall_score: float = 0.72
+    max_reflection_iterations: int = 1
 
     class Config:
         env_file = ".env"
