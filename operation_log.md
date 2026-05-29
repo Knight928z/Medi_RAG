@@ -24,3 +24,4 @@
 - 2026-05-29 10:41:10：执行测试失败，系统 Python 缺少 `pytest` 模块，待统一虚拟环境后补测。
 - 2026-05-29 10:42:05：提交变更（feat: add persistence caching and init script）。
 - 2026-05-29 10:42:20：推送提交到远程 `origin/main`。
+- 2026-05-29 10:50:10：更新 `requirements.txt`，补齐迁移、异步、测试与重试相关依赖。
