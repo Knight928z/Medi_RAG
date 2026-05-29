@@ -22,3 +22,5 @@
 - 2026-05-29 10:40:05：新增数据库初始化脚本 `scripts/init_db.py`。
 - 2026-05-29 10:40:20：更新 `README.md`，补充初始化步骤与 `/data` 说明。
 - 2026-05-29 10:41:10：执行测试失败，系统 Python 缺少 `pytest` 模块，待统一虚拟环境后补测。
+- 2026-05-29 10:42:05：提交变更（feat: add persistence caching and init script）。
+- 2026-05-29 10:42:20：推送提交到远程 `origin/main`。
