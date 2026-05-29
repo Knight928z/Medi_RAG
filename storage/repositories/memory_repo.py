@@ -1,5 +1,7 @@
 from typing import List
 
+from sqlalchemy import select
+
 from storage.models import MemoryEntry
 
 
@@ -7,16 +9,16 @@ class MemoryRepository:
     def __init__(self, session):
         self.session = session
 
-    def create(self, entry: MemoryEntry) -> MemoryEntry:
+    async def create(self, entry: MemoryEntry) -> MemoryEntry:
         self.session.add(entry)
-        self.session.commit()
-        self.session.refresh(entry)
+        await self.session.commit()
+        await self.session.refresh(entry)
         return entry
 
-    def list_by_patient(self, patient_id: str) -> List[MemoryEntry]:
-        return (
-            self.session.query(MemoryEntry)
-            .filter(MemoryEntry.patient_id == patient_id)
+    async def list_by_patient(self, patient_id: str) -> List[MemoryEntry]:
+        result = await self.session.execute(
+            select(MemoryEntry)
+            .where(MemoryEntry.patient_id == patient_id)
             .order_by(MemoryEntry.created_at.desc())
-            .all()
         )
+        return list(result.scalars().all())

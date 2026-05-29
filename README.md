@@ -27,6 +27,10 @@
 - 录入知识库文档：
   - 使用 `python scripts/ingest_data.py --data-dir ./data`
 
+- 生成迁移脚本（Alembic）：
+  - 使用 `alembic revision --autogenerate -m "init"`
+  - 使用 `alembic upgrade head`
+
 ## 容器化部署
 
 - 使用 `docker-compose.yml` 启动 PostgreSQL + Redis + API 服务。
@@ -38,3 +42,5 @@
 `/data` 目录用于放置知识库文件，已在 `.gitignore` 中忽略。
 
 工作流执行时会记录 `trace` 字段用于审计追踪。
+
+健康检查：`/health`、`/health/db`、`/health/redis`、`/health/ollama`。

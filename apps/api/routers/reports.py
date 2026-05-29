@@ -16,7 +16,7 @@ router = APIRouter(prefix="/reports", tags=["reports"])
 
 
 @router.post("/interpret", response_model=ReportInterpretResponse)
-def interpret_report(
+async def interpret_report(
     payload: ReportInterpretRequest,
     db_session=Depends(get_db_session),
     redis_client=Depends(get_redis_client),
@@ -29,7 +29,7 @@ def interpret_report(
         patient_id=payload.patient_id,
     )
     repo = WorkflowRepository(db_session)
-    run = repo.create(
+    run = await repo.create(
         WorkflowRun(
             request_id=request_id,
             state_snapshot=initial_state.model_dump(),
@@ -41,7 +41,7 @@ def interpret_report(
         result_state.model_dump() if hasattr(result_state, "model_dump") else result_state
     )
     try:
-        repo.update(run, status="completed", state_snapshot=result_payload)
+        await repo.update(run, status="completed", state_snapshot=result_payload)
     except Exception as exc:
         result_payload.setdefault("errors", []).append(f"db_update_failed:{exc}")
     settings = get_settings()

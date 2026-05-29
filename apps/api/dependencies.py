@@ -1,13 +1,14 @@
-from typing import Generator
+from typing import AsyncGenerator
 
 from cache.redis_client import get_redis
 from core.config import get_settings
-from storage.database import get_session
+from storage.database import get_async_session
 
 
-def get_db_session() -> Generator:
+async def get_db_session() -> AsyncGenerator:
     settings = get_settings()
-    yield from get_session(settings.database_url)
+    async with get_async_session(settings.database_url) as session:
+        yield session
 
 
 def get_redis_client():

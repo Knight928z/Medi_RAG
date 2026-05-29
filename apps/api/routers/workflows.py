@@ -8,7 +8,7 @@ router = APIRouter(prefix="/workflows", tags=["workflows"])
 
 
 @router.get("/{request_id}")
-def get_workflow_status(
+async def get_workflow_status(
     request_id: str,
     db_session=Depends(get_db_session),
     redis_client=Depends(get_redis_client),
@@ -21,7 +21,7 @@ def get_workflow_status(
         return {"request_id": request_id, "status": "cached", "state": cached}
 
     repo = WorkflowRepository(db_session)
-    run = repo.get_by_request_id(request_id)
+    run = await repo.get_by_request_id(request_id)
     if run is None:
         raise HTTPException(status_code=404, detail="未找到对应的工作流记录")
     return {

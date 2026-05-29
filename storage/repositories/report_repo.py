@@ -1,5 +1,7 @@
 from typing import Optional
 
+from sqlalchemy import select
+
 from storage.models import Report
 
 
@@ -7,11 +9,12 @@ class ReportRepository:
     def __init__(self, session):
         self.session = session
 
-    def create(self, report: Report) -> Report:
+    async def create(self, report: Report) -> Report:
         self.session.add(report)
-        self.session.commit()
-        self.session.refresh(report)
+        await self.session.commit()
+        await self.session.refresh(report)
         return report
 
-    def get(self, report_id) -> Optional[Report]:
-        return self.session.get(Report, report_id)
+    async def get(self, report_id) -> Optional[Report]:
+        result = await self.session.execute(select(Report).where(Report.id == report_id))
+        return result.scalar_one_or_none()
