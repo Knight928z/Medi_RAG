@@ -70,3 +70,10 @@
 - 2026-05-29 12:28:35：使用 `.venv` 运行 `pytest`，4 条测试通过（含警告）。
 - 2026-05-29 12:30:10：提交变更（feat: langgraph workflow skeleton with checkpoints）。
 - 2026-05-29 12:30:25：推送提交到远程 `origin/main`。
+- 2026-05-29 12:48:10：新增 ParserAgent 结构化 schema 与 LLM JSON 解析逻辑。
+- 2026-05-29 12:48:35：解析结果落库到 `reports.parsed_payload` 并补充单元测试。
+- 2026-05-29 12:49:05：更新 Parser prompt 约束字段与错误标记规则。
+- 2026-05-29 12:55:10：新增 Parser schema 与 LLM 结构化输出解析。
+- 2026-05-29 12:55:35：解析结果写入 `reports.parsed_payload` 并增加 schema 测试。
+- 2026-05-29 12:56:10：修复配置文件注释导致的语法错误。
+- 2026-05-29 12:56:35：修复 Python 3.9 类型注解兼容问题并通过 `pytest`（5 条通过）。

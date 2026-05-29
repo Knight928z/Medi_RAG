@@ -7,7 +7,8 @@ from apps.api.schemas.request import ReportInterpretRequest
 from apps.api.schemas.response import ReportInterpretResponse
 from cache.redis_client import set_json
 from core.config import get_settings
-from storage.models import WorkflowRun
+from storage.models import Report, WorkflowRun
+from storage.repositories.report_repo import ReportRepository
 from storage.repositories.workflow_repo import WorkflowRepository
 from workflows.graph import build_workflow
 from workflows.state import WorkflowState
@@ -57,6 +58,18 @@ async def interpret_report(
         )
     except Exception as exc:
         result_payload.setdefault("errors", []).append(f"redis_cache_failed:{exc}")
+
+    try:
+        report_repo = ReportRepository(db_session)
+        await report_repo.create(
+            Report(
+                patient_id=payload.patient_id,
+                raw_text=payload.report_text,
+                parsed_payload=result_payload.get("parsed_report"),
+            )
+        )
+    except Exception as exc:
+        result_payload.setdefault("errors", []).append(f"report_persist_failed:{exc}")
     return ReportInterpretResponse(
         request_id=request_id,
         status="completed",

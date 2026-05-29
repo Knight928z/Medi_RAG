@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from core.config import get_settings
 from llm.ollama_client import OllamaClient
@@ -13,7 +13,7 @@ class LLMRouter:
         self.vllm = VLLMClient(settings.vllm_base_url)
         self.default_model = settings.default_llm_model
 
-    def generate(self, prompt: str, model: str | None = None) -> Dict[str, Any]:
+    def generate(self, prompt: str, model: Optional[str] = None) -> Dict[str, Any]:
         selected_model = model or self.default_model
         if self.provider == "vllm":
             return self.vllm.generate(selected_model, prompt)
