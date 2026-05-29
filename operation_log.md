@@ -11,3 +11,5 @@
 - 2026-05-29 10:27:10：更新 `apps/api/routers/reports.py`，接入同步工作流执行。
 - 2026-05-29 10:27:25：新增 `tests/test_workflow.py` 的工作流执行测试。
 - 2026-05-29 10:28:05：尝试执行工作流烟雾测试，系统 Python 缺少 `langgraph` 依赖，待统一环境后补测。
+- 2026-05-29 10:29:40：提交变更（feat: wire minimal workflow and ops log）。
+- 2026-05-29 10:29:55：推送提交到远程 `origin/main`。
